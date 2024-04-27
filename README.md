@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="img/fietje-2b-banner.png" alt="Banner Image" style="max-width: 800px; width: auto; height: auto;">
+  <img src="img/fietje-2b-banner.png" alt="Banner Image" style="display: block; max-width: 480px; width: auto; height: auto;">
 </p>
 
 <div style="margin:auto; text-align:center" align="center">
