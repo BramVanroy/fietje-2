@@ -165,14 +165,9 @@ while (system_message := input("System message ('q' to quit): ")) != "q":
 ```
 
 
+## Training
 
-### Training data
-
-28B tokens from wikipedia and culturax, extra filtered
-
-### Training methodology
-
-Alignment handbook; add recipes to github repo
+Want to know more about the training procedure? Have a look at the [training README](training/).
 
 ## Thanks
 

@@ -1,0 +1,65 @@
+# Model arguments
+model_name_or_path: BramVanroy/fietje-2b
+model_revision: main
+torch_dtype: bfloat16
+use_flash_attention_2: true
+bf16: true
+tf32: true
+
+# Training arguments
+learning_rate: 6.0e-05
+adam_beta1: 0.9
+adam_beta2: 0.98
+adam_epsilon: 1.0e-7
+weight_decay: 0.1
+logging_steps: 1
+logging_strategy: steps
+lr_scheduler_type: cosine
+max_seq_length: 2048
+
+per_device_train_batch_size: 42
+per_device_eval_batch_size: 36
+
+gradient_accumulation_steps: 1
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: False
+
+# Data training arguments
+chat_template: "{% for message in messages %}{{'<|im_start|>' + message['role'] + '\n' + message['content']}}{% if (loop.last and add_generation_prompt) or not loop.last %}{{ '<|im_end|>' + '\n'}}{% endif %}{% endfor %}{% if add_generation_prompt and messages[-1]['role'] != 'assistant' %}{{ '<|im_start|>assistant\n' }}{% endif %}"
+dataset_mixer:
+  BramVanroy/ultrachat_200k_dutch: 1.0
+  BramVanroy/no_robots_dutch: 1.0
+  BramVanroy/belebele_dutch: 1.0
+dataset_configs:
+  - default
+  - default
+  - sft
+dataset_splits:
+  - train_sft
+  - test_sft
+preprocessing_num_workers: 8
+num_train_epochs: 3.0
+remove_unused_columns: true
+push_to_hub: true
+report_to:
+- wandb
+log_level: info
+
+# To do or not to do
+do_train: True
+do_eval: True
+seed: 42
+
+# Storing
+output_dir: /dodrio/scratch/projects/2023_071/alignment-handbook/data/fietje-2b-sft
+overwrite_output_dir: true
+hub_model_id: BramVanroy/fietje-2b-sft
+hub_private_repo: true
+hub_strategy: all_checkpoints
+save_total_limit: 6
+
+# Strategies
+evaluation_strategy: "epoch"
+save_strategy: "epoch"
+warmup_ratio: 0.1

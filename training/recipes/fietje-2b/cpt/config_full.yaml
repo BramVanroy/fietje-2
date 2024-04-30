@@ -1,0 +1,61 @@
+# Model arguments
+model_name_or_path: microsoft/phi-2
+model_revision: main
+torch_dtype: bfloat16
+use_flash_attention_2: true
+bf16: true
+tf32: true
+
+# Training arguments
+learning_rate: 9.0e-05
+adam_beta1: 0.9
+adam_beta2: 0.98
+adam_epsilon: 1.0e-7
+weight_decay: 0.1
+logging_steps: 1
+logging_strategy: steps
+lr_scheduler_type: linear
+max_seq_length: 2048
+
+per_device_train_batch_size: 40
+per_device_eval_batch_size: 40
+
+gradient_accumulation_steps: 3
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: False
+
+# Data training arguments
+dataset_mixer:
+  /dodrio/scratch/projects/2023_071/alignment-handbook/data/fietje-2b-cpt-prep: 1.0
+dataset_splits:
+  - train
+  - test
+preprocessing_num_workers: 8
+num_train_epochs: 1.0
+remove_unused_columns: true
+push_to_hub: true
+report_to:
+- wandb
+log_level: info
+
+# To do or not to do
+do_train: True
+do_eval: True
+seed: 42
+
+# Storing
+output_dir: /dodrio/scratch/projects/2023_071/alignment-handbook/data/fietje-2b
+overwrite_output_dir: true
+save_total_limit: 6
+hub_model_id: fietje-2b
+hub_private_repo: true
+hub_strategy: all_checkpoints
+
+# Strategies
+evaluation_strategy: "steps"
+eval_steps: 900
+save_strategy: "steps"
+save_steps: 900
+warmup_steps: 0
+

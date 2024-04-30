@@ -1,0 +1,66 @@
+# Model arguments
+model_name_or_path: BramVanroy/fietje-2b-sft
+model_revision: main
+torch_dtype: bfloat16
+use_flash_attention_2: true
+bf16: true
+tf32: true
+
+# Training arguments
+learning_rate: 2.0e-06
+adam_beta1: 0.9
+adam_beta2: 0.98
+adam_epsilon: 1.0e-7
+weight_decay: 0.1
+logging_steps: 1
+logging_strategy: steps
+lr_scheduler_type: cosine
+max_length: 2048
+max_prompt_length: 1280
+
+# DPO
+beta: 0.01
+
+per_device_train_batch_size: 8
+per_device_eval_batch_size: 4
+
+gradient_accumulation_steps: 2
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: False
+
+# Data training arguments
+dataset_mixer:
+  BramVanroy/ultra_feedback_dutch_cleaned: 1.0
+  BramVanroy/orca_dpo_pairs_dutch_cleaned: 1.0
+dataset_configs:
+  - dpo_hq
+  - dpo_all
+dataset_splits:
+  - train_prefs
+  - test_prefs
+preprocessing_num_workers: 8
+num_train_epochs: 1.0
+remove_unused_columns: true
+push_to_hub: true
+report_to:
+- wandb
+log_level: info
+
+# To do or not to do
+do_train: True
+do_eval: True
+seed: 42
+
+# Storing
+output_dir: /dodrio/scratch/projects/2023_071/alignment-handbook/data/fietje-2b-dpo
+overwrite_output_dir: true
+hub_model_id: BramVanroy/fietje-2b-dpo
+hub_private_repo: true
+hub_strategy: all_checkpoints
+save_total_limit: 6
+
+# Strategies
+evaluation_strategy: "epoch"
+save_strategy: "epoch"
+warmup_ratio: 0.1
