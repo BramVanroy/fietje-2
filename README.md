@@ -192,6 +192,10 @@ while (system_message := input("System message ('q' to quit): ")) != "q":
         print("Assistant:", response)
 ```
 
+## What's next?
+
+I have some ideas... :-)
+
 ## Thanks
 
 - Edwin Rijgersberg, the creator of [the original GEITje](https://github.com/Rijgersberg/GEITje), who showed for the first time (for Dutch) how feasible and powerful continued pretraining can be!
