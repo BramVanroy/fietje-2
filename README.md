@@ -45,7 +45,7 @@ The easiest way to get started with Fietje locally, is by using it through a cha
 
 Rather than using an interface or ollama via the command-line, you can also plainly use the model from good ol' `transformers`.
 
-One-off generation
+Here is an example of how to use the model in Python for a one-off generation to create a DnD character. Note that the `pipeline` automatically handles the correct formatting of the conversation according to the required chat template.
 
 ```python
 from transformers import pipeline, Conversation
@@ -55,22 +55,37 @@ from transformers import pipeline, Conversation
 # device_map=auto: loads the model across multiple GPUs
 chatbot = pipeline(
     "conversational",
-    model="BramVanroy/fietje-2b-chat",
+    model="BramVanroy/fietje-2b-instruct",
     model_kwargs={"load_in_8bit": True, "attn_implementation": "flash_attention_2"},
     device_map="auto"
 )
 
 start_messages = [
-    {"role": "system", "content": "Je bent een grappige chatbot die Bert heet. Je maakt vaak mopjes."},
-    {"role": "user", "content": "Hallo, ik ben Bram. Ik wil vanavond graag een film kijken. Heb je enkele suggesties?"}
+    {"role": "user", "content": "Geef een naam, beschrijving, en enkele skills en bijhorende punten voor die skills  van een fictief karakter in DnD. Gebruik JSON. Geef geen extra uitleg."}
 ]
 conversation = Conversation(start_messages)
 conversation = chatbot(conversation)
 response = conversation.messages[-1]["content"]
 print(response)
+"""
+{
+  "naam": "Thane",
+  "beschrijving": "Een wijze en bedachtzame tovenaar die de kunst van de oude magie beheerst. Hij is een meester in het manipuleren van de elementen en heeft een diepe kennis van de natuurkrachten."
+  "skills": {
+    "Elemental Manipulation": {
+      "level": 10,
+      "punten": 100
+    },
+    "Nature Magic": {
+      "level": 10,
+      "punten": 100
+    }
+  }
+}
+"""
 ```
 
-Interactive conversation:
+A more elaborate approach is to create a minimalistic chat environment in Python. This is similar to what `ollama` offers, but slower.
 
 ```python
 from transformers import pipeline, Conversation
@@ -80,7 +95,7 @@ from transformers import pipeline, Conversation
 # device_map=auto: loads the model across multiple GPUs
 chatbot = pipeline(
     "conversational",
-    model="BramVanroy/fietje-2b-dpo-lr2.0e-6-beta0.2-gradaccum2-v6",
+    model="BramVanroy/fietje-2b-chat",
     model_kwargs={"load_in_8bit": True, "attn_implementation": "flash_attention_2"},
     device_map="auto"
 )
@@ -97,33 +112,6 @@ while (system_message := input("System message ('q' to quit): ")) != "q":
         print("Assistant:", response)
 ```
 
-If that's still not fast enough, you can use [vLLM](https://github.com/vllm-project/vllm/blob/main/examples/offline_inference.py) for optimized inference, which is much faster.
-
-TODO: add chat template
-```python
-from vllm import LLM, SamplingParams
-
-# Sample prompts.
-prompts = [
-    "Hello, my name is",
-    "The president of the United States is",
-    "The capital of France is",
-    "The future of AI is",
-]
-# Create a sampling params object.
-sampling_params = SamplingParams(temperature=0.8, top_p=0.95)
-
-# Create an LLM.
-llm = LLM(model="BramVanroy/fietje-2b-dpo-lr2.0e-6-beta0.2-gradaccum2-v6")
-# Generate texts from the prompts. The output is a list of RequestOutput objects
-# that contain the prompt, generated text, and other information.
-outputs = llm.generate(prompts, sampling_params)
-# Print the outputs.
-for output in outputs:
-    prompt = output.prompt
-    generated_text = output.outputs[0].text
-    print(f"Prompt: {prompt!r}, Generated text: {generated_text!r}")
-```
 
 ## Performance
 
