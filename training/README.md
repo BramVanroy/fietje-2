@@ -2,7 +2,7 @@
 
 To train Fietje, I used the [alignment-hanbook](https://github.com/huggingface/alignment-handbook/). I added quite some PRs to the library to enable what I wanted to do, in particular support for continued pretraining (cpt). You should be able to use the alignment handbook with the recipes in this directory.
 
-I used SLURM to launch my jobs, inspired by the description in [the handbook](https://github.com/huggingface/alignment-handbook/tree/main/scripts#launching-jobs-on-a-slurm-cluster). To run these on your own cluster, you may need to adapt the launch script. My own SLURM script is therefore somewhat different from the original, but the commands below should work with the default script after adding the `recipes/fietje-2b` directories to the corresponding directory in your clone of the alignment handbook.
+I used SLURM to launch my jobs, inspired by the suggestion in [the handbook](https://github.com/huggingface/alignment-handbook/tree/main/scripts#launching-jobs-on-a-slurm-cluster). To run these on your own cluster, you may need to adapt the launch script. My own SLURM script is therefore somewhat different from the original, but the commands below should work with the default script after adding the `recipes/fietje-2b` directories to the corresponding directory in your clone of the alignment handbook.
 
 ## Continue-pretraining phase
 
@@ -25,7 +25,7 @@ python prepare_data.py \
 ```
 
 
-To train [Fietje 2B](https://huggingface.co/BramVanroy/fietje-2b) (base). This takes the longest. Actual training took around two weeks on four nodes of four GPUs (16x A100 80GB).
+To train [Fietje 2B](https://huggingface.co/BramVanroy/fietje-2b) (base). This takes the longest. Actual training took around two weeks on four nodes of four GPUs (16x A100 80GB). The (relatively satisfying) training logs are on [Weights and Biases](https://wandb.ai/bramvanroy/cpt-fietje-2b).
 
 ```shell
 sbatch --job-name=fietje_cpt --nodes=4 recipes/launch.slurm fietje-2b cpt full deepspeed_zero3
@@ -33,7 +33,7 @@ sbatch --job-name=fietje_cpt --nodes=4 recipes/launch.slurm fietje-2b cpt full d
 
 ## Supervised-finetuning phase
 
-To create [Fietje 2B Instruct](https://huggingface.co/BramVanroy/fietje-2b-instruct). This is much faster and should take around a day (probably less) on 16x A100 80GB. 
+To create [Fietje 2B Instruct](https://huggingface.co/BramVanroy/fietje-2b-instruct). This is much faster and should take around a day (probably less) on 16x A100 80GB. Training logs are [here](https://wandb.ai/bramvanroy/sft-fietje-2b), where you can see that training for longer may have improved the quality still. 
 
 ```shell
 sbatch --job-name=fietje_sft --nodes=4 recipes/launch.slurm fietje-2b sft full deepspeed_zero3
@@ -41,7 +41,7 @@ sbatch --job-name=fietje_sft --nodes=4 recipes/launch.slurm fietje-2b sft full d
 
 ## Preference optimalisation phase
 
-To finetune [Fietje 2B Chat](https://huggingface.co/BramVanroy/fietje-2b-chat). This should be relatively fast as the dataset is only around 20k samples. One run should take around 9 hours one one A100 80GB.
+To finetune [Fietje 2B Chat](https://huggingface.co/BramVanroy/fietje-2b-chat). This should be relatively fast as the dataset is only around 20k samples. One run should take around 9 hours one one A100 80GB. In reality, however, it took a long time to find good hyperparameters, as the [W&B runs](https://wandb.ai/bramvanroy/dpo-fietje-2b) show.
 
 ```shell
 sbatch --job-name=fietje_dpo --nodes=1 recipes/launch.slurm fietje-2b dpo full deepspeed_zero3

@@ -171,8 +171,8 @@ Want to know more about the training procedure? Have a look at the [training REA
 
 ## Thanks
 
-- Edwin Rijgersberg
-- David Berenstein, Argilla
-- Hugging Face, esp. `trl` and `alignment-handbook` teams
-- Dutch NLP Community
-- Michiel Buisman (UWV), Maarten Lenz-Fitzgerald (SVB) - project leesplank
+- Edwin Rijgersberg, the creator of [the original GEITje](https://github.com/Rijgersberg/GEITje), who showed for the first time (for Dutch) how feasible and powerful continued pretraining can be!
+- David Berenstein and others at Argilla, whom I have worked closely with in endeavours to improve dataset quality. [Ultra Feedback Cleaned](https://huggingface.co/datasets/BramVanroy/ultra_feedback_dutch_cleaned) was a joint effort. 
+- Hugging Face, especially the `trl` and `alignment-handbook` teams for their patience and excellent work. Special shout-out to my fellow core contributors!
+- [The Dutch NLP Community](https://discord.gg/5dJDYeXEVz) for their enthusiasm.
+- [Michiel Buisman](https://www.linkedin.com/in/mbuisman/) (UWV) and [Maarten Lens-FitzGerald](https://www.linkedin.com/in/lensfitzgerald/) (SVB) without whom none of this would have been possible. Thanks to project Leesplank we've had the opportunity to create synthetic instruction and preference datasets for Dutch, which are paramount to build powerful assistants.  
