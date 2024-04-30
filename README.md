@@ -56,7 +56,7 @@ ollama run bramvanroy/fietje-2b-chat:q5_k_m
 Example:
 
 <p align="center">
-  <img src="img/ollama.png"  style="display: block; max-width: 540px; width: 100%; height: auto;">
+  <img src="img/ollama.png">
 </p>
 
 ### Python
