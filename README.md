@@ -2,14 +2,21 @@
   <img src="img/logo/fietje-2b-banner-rounded.png" alt="Banner image Fietje" style="display: block; max-width: 480px; width: auto; height: auto;">
 </p>
 
-<div style="margin:auto; text-align:center" align="center">
+<div style="margin:auto; text-align:center; margin-bottom: 1em;" align="center">
 <h1 style="margin-bottom: 0">Fietje 2B</h1>
 <em>An open and efficient LLM for Dutch.</em>
 </div>
 
 Fietje is an adapated version of microsoft/phi-2, tailored to Dutch text generation by training on **28B tokens**. It is small and efficient with a size of 2.7 billion parameters while performing almost on par with more powerful Dutch LLMs of twice its size like GEITje 7B Ultra. *In some benchmarks it even beats it!* 😲
 
-Mostly curious about how to use Fietje? Check out some [examples](#how-to-use) below!
+Fietje comes in three flavors, all equally fast and efficient but intended for different tasks. Each variant builds upon the previous, so as a general assistant the chat variant is recommended.
+
+- [`BramVanroy/fietje-2b`](https://huggingface.co/BramVanroy/fietje-2b): a base model, not suitable for chat or instruction following but great for general text generation.
+- [`BramVanroy/fietje-2b-instruct`](https://huggingface.co/BramVanroy/fietje-2b-instruct): an intruction following model, capable of following instructions, answering questions, and holding a conversation. Unlike the chat version, this version is not further optimised (or aligned) with preference tuning.
+- [`BramVanroy/fietje-2b-chat`](https://huggingface.co/BramVanroy/fietje-2b-chat): a chat model, optimised with preference tuning and therefore better suited as an assistant. **Recommended** in most cases.
+
+> [!TIP]
+> Mostly curious about how to use Fietje? Check out some [examples](#how-to-use) below!
 
 ## Performance
 
@@ -17,7 +24,8 @@ Despite its small size, Fietje keeps up with other state-of-the-art models adapt
 
 The results in this table have been calculated with [ScandEval](https://github.com/ScandEval/ScandEval) (v12.6.1), which automatically runs each benchmark ten times to give a more precise indication of system's performance. Confidence intervals are not reported here so the table below gives a limited view of nuances between models. Furthermore, benchmarks for generative models are inherently flawed. It is hard to capture "quality" of a model - it will always depend on your task and your prompt. Don't trust leaderboards - try out your task with a limited dataset to get a better idea which model works for you!
 
-The important takeaway is that **Fietje punches above its weight class** when it comes to these benchmarks. And that is its goal: to be powerful but efficient!
+> [!IMPORTANT]  
+> The important takeaway is that **Fietje punches above its weight class** when it comes to these benchmarks. And that is its goal: to be powerful but efficient!
 
 Full results, including confidence interval and other metrics, will be added to the [ScandEval leaderboard](https://scandeval.com/dutch-nlg/) soon. For now, you can find the raw results (including other models not reported in the table) in [evaluation/scandeval_benchmark_results.jsonl](evaluation/scandeval_benchmark_results.jsonl).
 
