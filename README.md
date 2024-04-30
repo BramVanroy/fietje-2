@@ -7,6 +7,10 @@
 <em>An open and efficient LLM for Dutch.</em>
 </div>
 
+Fietje is an adapated version of microsoft/phi-2, tailored to Dutch text generation by training on **28B tokens**. It is small and efficient with a size of 2.7 billion parameters while performing almost on par with more powerful Dutch LLMs of twice its size like GEITje 7B Ultra. *In some benchmarks it even beats it!* 😲
+
+Mostly curious about how to use Fietje? Check out some [examples](#how-to-use) below!
+
 ## Performance
 
 Despite its small size, Fietje keeps up with other state-of-the-art models adapted for Dutch that are more than twice its size.
@@ -16,7 +20,6 @@ The results in this table have been calculated with [ScandEval](https://github.c
 The important takeaway is that **Fietje punches above its weight class** when it comes to these benchmarks. And that is its goal: to be powerful but efficient!
 
 Full results, including confidence interval and other metrics, will be added to the [ScandEval leaderboard](https://scandeval.com/dutch-nlg/) soon. For now, you can find the raw results (including other models not reported in the table) in [evaluation/scandeval_benchmark_results.jsonl](evaluation/scandeval_benchmark_results.jsonl).
-
 
 |       model         	        | dutch-social<br>(macro f1) 	 | conll-nl<br>(micro f1) 	 | scala-nl<br>(macro f1) 	 | squad-nl<br>(f1) 	 | wiki-lingua-nl<br>(bertscore) 	 | mmlu-nl<br>(accuracy) 	 | hellaswag-nl<br>(accuracy) 	 | **average** 	|
 |:----------------------------:|:----------------------------:|:------------------------:|:------------------------:|:------------------:|:-------------------------------:|:-----------------------:|:----------------------------:|:-----------:	|
@@ -32,6 +35,23 @@ Full results, including confidence interval and other metrics, will be added to 
 |   Phi-3-mini-4k-instruct 	   |   29.23                 	    |   **42.76**         	    |   50.26             	    |   48.39       	    |   57.17                    	    |   40.28            	    |   34.69                 	    | 43.26       	|
 |   phi-2                  	   |   29.30                 	    |   31.52             	    |   38.18             	    |   36.54       	    |   59.26                    	    |   31.98            	    |   25.71                 	    | 36.07       	|
 |   gpt2-medium-dutch      	   |   10.30                 	    |   0.33              	    |   45.08             	    |   1.69        	    |   34.01                    	    |   24.76            	    |   23.61                 	    | 19.97       	|
+
+
+## Training and data
+
+Want to know more about the training procedure? Have a look at the [training README](training/).
+
+Fietje has undergone three stages: continued pretraining on large volumes of Dutch text, supervised fine-tuning on an instruction dataset, and preference optimalisation on a preference dataset.
+
+- continued pretraining (`fietje-2b`): for the base model, Microsoft's `phi-2` was continue-pretrained on 28B tokens of Dutch text. The dataset includes the full Dutch component of Wikipedia (accounting for around 15%), supplemented with Dutch tokens from CulturaX. A newer version of this dataset can be found here, which also describes the filtering that took place to ensure high data quality.
+  - [BramVanroy/wikipedia_culturax_dutch](https://huggingface.co/datasets/BramVanroy/wikipedia_culturax_dutch)
+- supervised fine-tuning (`fietje-2b-instruct`): the base model was then fine-tuned on a  instruction dataset, "to teach the model how to have a conversation". Three different datasets were used, two of which are synthetic. Combined, this dataset accounts for 201,579 samples (or "conversations").
+  - [BramVanroy/ultrachat_200k_dutch](https://huggingface.co/datasets/BramVanroy/ultrachat_200k_dutch): gpt-4-1106-preview; multi-turn; fully generated (192,598)
+  - [BramVanroy/no_robots_dutch](https://huggingface.co/datasets/BramVanroy/no_robots_dutch): gpt-4-1106-preview; prompt translate, answer generated; some items have system messages (8181)
+  - [BramVanroy/belebele_dutch](https://huggingface.co/datasets/BramVanroy/belebele_dutch): Dutch portion of [belebele](https://huggingface.co/datasets/facebook/belebele), formatted into SFT format (800)
+- preference optimalisation (with DPO; `fietje-2b-chat`): the instruct model underwent a final optimalisation to align it better with what we look for in a good assistant. To do so, cleaned and scored datasets were used to get high-quality preference data, totalling 18,653 samples.
+  - [BramVanroy/ultra_feedback_dutch_cleaned](https://huggingface.co/datasets/BramVanroy/ultra_feedback_dutch_cleaned) subset `dpo_hq`: a cleaned version of [BramVanroy/ultra_feedback_dutch](https://huggingface.co/datasets/BramVanroy/ultra_feedback_dutch) (9186)
+  - [BramVanroy/orca_dpo_pairs_dutch_cleaned](https://huggingface.co/datasets/BramVanroy/orca_dpo_pairs_dutch_cleaned) subset `dpo_all`: a cleaned version of [BramVanroy/orca_dpo_pairs_dutch](https://huggingface.co/datasets/BramVanroy/orca_dpo_pairs_dutch) (9467)
 
 
 ## How to use
@@ -164,15 +184,11 @@ while (system_message := input("System message ('q' to quit): ")) != "q":
         print("Assistant:", response)
 ```
 
-
-## Training
-
-Want to know more about the training procedure? Have a look at the [training README](training/).
-
 ## Thanks
 
 - Edwin Rijgersberg, the creator of [the original GEITje](https://github.com/Rijgersberg/GEITje), who showed for the first time (for Dutch) how feasible and powerful continued pretraining can be!
 - David Berenstein and others at Argilla, whom I have worked closely with in endeavours to improve dataset quality. [Ultra Feedback Cleaned](https://huggingface.co/datasets/BramVanroy/ultra_feedback_dutch_cleaned) was a joint effort. 
 - Hugging Face, especially the `trl` and `alignment-handbook` teams for their patience and excellent work. Special shout-out to my fellow core contributors!
 - [The Dutch NLP Community](https://discord.gg/5dJDYeXEVz) for their enthusiasm.
-- [Michiel Buisman](https://www.linkedin.com/in/mbuisman/) (UWV) and [Maarten Lens-FitzGerald](https://www.linkedin.com/in/lensfitzgerald/) (SVB) without whom none of this would have been possible. Thanks to project Leesplank we've had the opportunity to create synthetic instruction and preference datasets for Dutch, which are paramount to build powerful assistants.  
+- [Michiel Buisman](https://www.linkedin.com/in/mbuisman/) (UWV) and [Maarten Lens-FitzGerald](https://www.linkedin.com/in/lensfitzgerald/) (SVB) without whom none of this would have been possible. Thanks to project Leesplank we've had the opportunity to create synthetic instruction and preference datasets for Dutch, which are paramount to build powerful assistants.
+- The [Flemish Supercomputer Center](https://www.vscentrum.be/) (VSC) for providing the computational resources to train Fietje.
