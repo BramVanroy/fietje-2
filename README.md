@@ -55,13 +55,13 @@ from transformers import pipeline, Conversation
 # device_map=auto: loads the model across multiple GPUs
 chatbot = pipeline(
     "conversational",
-    model="BramVanroy/fietje-2b-instruct",
+    model="BramVanroy/fietje-2b-chat",
     model_kwargs={"load_in_8bit": True, "attn_implementation": "flash_attention_2"},
     device_map="auto"
 )
 
 start_messages = [
-    {"role": "user", "content": "Geef een naam, beschrijving, en enkele skills en bijhorende punten voor die skills  van een fictief karakter in DnD. Gebruik JSON. Geef geen extra uitleg."}
+    {"role": "user", "content": "Maak een nieuw DnD personage met de naam 'Bram'. Geef een beschrijving, de skills, en de extra 'traits'' met het aantal punten per vaardigheid. Gebruik JSON. Geef geen extra uitleg."}
 ]
 conversation = Conversation(start_messages)
 conversation = chatbot(conversation)
@@ -69,17 +69,24 @@ response = conversation.messages[-1]["content"]
 print(response)
 """
 {
-  "naam": "Thane",
-  "beschrijving": "Een wijze en bedachtzame tovenaar die de kunst van de oude magie beheerst. Hij is een meester in het manipuleren van de elementen en heeft een diepe kennis van de natuurkrachten."
-  "skills": {
-    "Elemental Manipulation": {
-      "level": 10,
-      "punten": 100
+  "naam": "Bram",
+  "beschrijving": "Een onverschrokken avonturier met een hart van goud, Bram is een man van weinig woorden, maar met een onuitputtelijke moed. Zijn leven is gevuld met verhalen van overwinningen en verliezen, maar hij draagt ze met een glimlach, wetende dat elke ervaring hem sterker heeft gemaakt."
+  "vaardigheden": {
+    "wapens": {
+      "dolk": 10,
+      "zwaard": 8,
+      "boog": 6
     },
-    "Nature Magic": {
-      "level": 10,
-      "punten": 100
+    "magie": {
+      "schaduw": 5,
+      "vuur": 4,
+      "water": 3
     }
+  },
+  "extra_traits": {
+    "moed": 10,
+    "vindingrijkheid": 8,
+    "doorzettingsvermogen": 7
   }
 }
 """
