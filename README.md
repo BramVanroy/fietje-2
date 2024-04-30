@@ -34,13 +34,11 @@ Full results, including confidence interval and other metrics, will be added to 
 |   gpt2-medium-dutch      	   |   10.30                 	    |   0.33              	    |   45.08             	    |   1.69        	    |   34.01                    	    |   24.76            	    |   23.61                 	    | 19.97       	|
 
 
-
-
 ## How to use
 
-How to use the final chat model. Also references to the cpt and sft models but emphasize that those are not recommended.
+There are a number of different ways to use Fietje 2B. The easiest way is to use the Hugging Face web interface, but you can also use it locally through LM Studio, ollama, or Python. 
 
-add Modelfile for final GGUF
+If you are a beginner and would like to run an LM locally, I recommend the [LM Studio approach](#local-interface-lm-studio).
 
 ### Hugging Face interface
 
