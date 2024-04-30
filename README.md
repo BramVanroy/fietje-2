@@ -15,7 +15,8 @@ The results in this table have been calculated with [ScandEval](https://github.c
 
 The important takeaway is that **Fietje punches above its weight class** when it comes to these benchmarks. And that is its goal: to be powerful but efficient!
 
-Full results, including confidence interval and other metrics, will be added to the [ScandEval leaderboard](https://scandeval.com/dutch-nlg/) soon.
+Full results, including confidence interval and other metrics, will be added to the [ScandEval leaderboard](https://scandeval.com/dutch-nlg/) soon. For now, you can find the raw results (including other models not reported in the table) in [evaluation/scandeval_benchmark_results.jsonl](evaluation/scandeval_benchmark_results.jsonl).
+
 
 |       model         	        | dutch-social<br>(macro f1) 	 | conll-nl<br>(micro f1) 	 | scala-nl<br>(macro f1) 	 | squad-nl<br>(f1) 	 | wiki-lingua-nl<br>(bertscore) 	 | mmlu-nl<br>(accuracy) 	 | hellaswag-nl<br>(accuracy) 	 | **average** 	|
 |:----------------------------:|:----------------------------:|:------------------------:|:------------------------:|:------------------:|:-------------------------------:|:-----------------------:|:----------------------------:|:-----------:	|
