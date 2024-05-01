@@ -13,7 +13,7 @@ Fietje comes in three flavors, all equally fast and efficient but intended for d
 
 - [`BramVanroy/fietje-2b`](https://huggingface.co/BramVanroy/fietje-2b): a base model, not suitable for chat or instruction following but great for general text generation.
 - [`BramVanroy/fietje-2b-instruct`](https://huggingface.co/BramVanroy/fietje-2b-instruct): an intruction following model, capable of following instructions, answering questions, and holding a conversation. Unlike the chat version, this version is not further optimised (or aligned) with preference tuning.
-- [`BramVanroy/fietje-2b-chat`](https://huggingface.co/BramVanroy/fietje-2b-chat): a chat model, optimised with preference tuning and therefore better suited as an assistant. **Recommended** in most cases.
+- [`BramVanroy/fietje-2b-chat`](https://huggingface.co/BramVanroy/fietje-2b-chat): a chat model, optimised with preference tuning and therefore better suited as an assistant. **Note** in most cases.
 
 > [!TIP]
 > Mostly curious about how to use Fietje? Check out some [examples](#how-to-use) below!
