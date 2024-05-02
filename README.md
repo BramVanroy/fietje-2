@@ -78,7 +78,7 @@ The easiest way to get started with Fietje locally, is by using it through a cha
 
 1. Download and install [LM Studio](https://lmstudio.ai/).
 2. In the sidebar, click on the magnify glass and then search for `bramvanroy` (no space) in the search bar.
-3. Click on the model that you want to download. For the chat model, this is `fietje-2b-chat-gguf`. Then select an appropriate quantization method under "Available Files". For starters you can select the most efficient version, which is `q5_k_m`.
+3. Click on the model that you want to download. For the chat model, this is `fietje-2b-chat-gguf`. Then select an appropriate quantization method under "Available Files". Unlike given in the screenshot, I recommend the `f16` or `Q8_0` version. You can also choose smaller versions but the smaller you go, the worse the quality will be!
 
 <p align="center">
   <img src="img/lm-studio/download.png"  style="display: block; max-width: 1570px; width: 100%; height: auto;">
