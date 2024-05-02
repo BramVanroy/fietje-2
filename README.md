@@ -94,9 +94,9 @@ The easiest way to get started with Fietje locally, is by using it through a cha
 
 ### Command-line: ollama
 
-All models can be used through the command-line interface [`ollama`](https://github.com/ollama/ollama). This is a more advanced way to interact with the model, but it is also more efficient.
+All models can be used through the command-line interface [`ollama`](https://github.com/ollama/ollama). This is a more advanced way to interact with the model, but it is also more efficient. Note that there have been reports of poor quality on Macs, but I cannot confirm this.
 
-Once you have installed `ollama`, you can easily run the base, instruct, or chat model. You have the option to use a larger `f16` model or a quantized, smaller `q5_k_m` version. The first is larger and likely yields better quality, but the second is much smaller and faster. `q5_k_m` is the default.
+Once you have installed `ollama`, you can easily run the base, instruct, or chat model. You have the option to use a larger `f16` model or any of the quantized models. Given that Fietje is already so small, I recommend running either `f16` or `Q8_0`.
 
 All models are available on [my ollama overview page](https://ollama.com/bramvanroy).
 
@@ -105,7 +105,7 @@ All models are available on [my ollama overview page](https://ollama.com/bramvan
 ollama serve
 
 # Then start the chat model. Download will happen automatically
-ollama run bramvanroy/fietje-2b-chat:q5_k_m
+ollama run bramvanroy/fietje-2b-chat:f16
 ```
 
 Example:
