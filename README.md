@@ -4,8 +4,10 @@
 
 <div style="margin:auto; text-align:center; margin-bottom: 1em;" align="center">
 <h1 style="margin-bottom: 0">Fietje 2B</h1>
-<em>An open and efficient LLM for Dutch.</em>
+<p><em>An open and efficient LLM for Dutch.</em></p>
 </div>
+
+**[Chat with Fietje!](https://huggingface.co/spaces/BramVanroy/fietje-2b)**
 
 Fietje is an adapated version of microsoft/phi-2, tailored to Dutch text generation by training on **28B tokens**. It is small and efficient with a size of 2.7 billion parameters while performing almost on par with more powerful Dutch LLMs of twice its size like GEITje 7B Ultra. *In some benchmarks it even beats it!* 😲
 
