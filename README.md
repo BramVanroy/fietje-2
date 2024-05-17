@@ -78,7 +78,7 @@ You can use Fietje 2B Chat freely in your browser through the [Hugging Face Spac
 
 The easiest way to get started with Fietje locally, is by using it through a chat interface like [LM Studio](https://lmstudio.ai/), which is a beginner-friendly program to run LLMs on your own device.
 
-1. Download and install [LM Studio](https://lmstudio.ai/).
+1. Download and install [LM Studio](https://lmstudio.ai/). **Warning**: due to a recent change in LM Studio, currently only [v0.2.21](https://releases.lmstudio.ai/windows/0.2.21/c/latest/LM-Studio-0.2.21-Setup.exe) and earlier supports phi-2 models like Fietje.
 2. In the sidebar, click on the magnify glass and then search for `bramvanroy` (no space) in the search bar.
 3. Click on the model that you want to download. For the chat model, this is `fietje-2b-chat-gguf`. Then select an appropriate quantization method under "Available Files". Unlike given in the screenshot, I recommend the `f16` or `Q8_0` version. You can also choose smaller versions but the smaller you go, the worse the quality will be!
 
@@ -86,9 +86,11 @@ The easiest way to get started with Fietje locally, is by using it through a cha
   <img src="img/lm-studio/download.png"  style="display: block; max-width: 1570px; width: 100%; height: auto;">
 </p>
 
-4. When the download has finished, click on the chat icon in the sidebar. 
-5. At the top center, select `fietje chat`  and wait for it to load.
-6. Start using the interface by talking to the model!
+4. When the download has finished, click on the "folder" icon in the sidebar.
+5. Find the downloaded model and for "Choose Default Preset" select "ChatML"
+6. Click on the chat icon (text bubble) in the sidebar. 
+7. At the top center, select `fietje chat`  and wait for it to load.
+8. Start using the interface by talking to the model!
 
 <p align="center">
   <img src="img/lm-studio/usage.png"  style="display: block; max-width: 1570px; width: 100%; height: auto;">
