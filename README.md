@@ -3,7 +3,7 @@
 </p>
 
 <div style="margin:auto; text-align:center; margin-bottom: 1em;" align="center">
-<h1 style="margin-bottom: 0">Fietje 2B</h1>
+<h1 style="margin-bottom: 0">Fietje 2</h1>
 <p><em>An open and efficient LLM for Dutch.</em></p>
 </div>
 
