@@ -20,6 +20,22 @@ Fietje comes in three flavors, all equally fast and efficient but intended for d
 > [!TIP]
 > Mostly curious about how to use Fietje? Check out some [examples](#how-to-use) below!
 
+## Citation
+
+If you use Fietje or the [CulturaX + Wikipedia filtered subset](https://huggingface.co/datasets/BramVanroy/wikipedia_culturax_dutch) in your work, please cite to the following paper:
+
+```bibtex
+@misc{vanroy2024fietjeopenefficientllm,
+      title={Fietje: An open, efficient LLM for Dutch}, 
+      author={Bram Vanroy},
+      year={2024},
+      eprint={2412.15450},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2412.15450}, 
+}
+```
+
 ## Performance
 
 Despite its small size, Fietje keeps up with other state-of-the-art models adapted for Dutch that are more than twice its size.
