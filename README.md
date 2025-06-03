@@ -141,24 +141,35 @@ Rather than using an interface or ollama via the command-line, you can also plai
 Here is an example of how to use the model in Python for a one-off generation to create a DnD character. Note that the `pipeline` automatically handles the correct formatting of the conversation according to the required chat template.
 
 ```python
-from transformers import pipeline, Conversation
+from transformers import BitsAndBytesConfig, pipeline
+
 
 # load_in_8bit: lower precision but saves a lot of GPU memory
 # attn_implementation: uses flash attention, if your device supports it - otherwise remove it
 # device_map=auto: loads the model across multiple GPUs
-chatbot = pipeline(
-    "conversational",
+bnb_config = BitsAndBytesConfig(
+    load_in_8bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype="bfloat16",
+)
+
+pipe = pipeline(
+    "text-generation",
     model="BramVanroy/fietje-2b-chat",
-    model_kwargs={"load_in_8bit": True, "attn_implementation": "flash_attention_2"},
+    model_kwargs={"attn_implementation": "flash_attention_2", "quantization_config": bnb_config},
     device_map="auto"
 )
 
 start_messages = [
-    {"role": "user", "content": "Maak een nieuw DnD personage met de naam 'Bram'. Geef een beschrijving, de skills, en de extra 'traits'' met het aantal punten per vaardigheid. Gebruik JSON. Geef geen extra uitleg."}
+    {
+        "role": "user",
+        "content": "Maak een nieuw DnD personage met de naam 'Bram'. Geef een beschrijving, de skills, en de extra 'traits'' met het aantal punten per vaardigheid. Gebruik JSON en geef geen extra uitleg, énkel JSON."
+    }
 ]
-conversation = Conversation(start_messages)
-conversation = chatbot(conversation)
-response = conversation.messages[-1]["content"]
+
+output = pipe(start_messages, max_length=512, do_sample=True)
+
+response = output[0]["generated_text"][-1]["content"]
 print(response)
 """
 {
@@ -188,33 +199,41 @@ print(response)
 A more elaborate approach is to create a minimalistic chat environment in Python. This is similar to what `ollama` offers, but slower.
 
 ```python
-from transformers import pipeline, Conversation
+from transformers import BitsAndBytesConfig, pipeline
 
-# load_in_8bit: lower precision but saves a lot of memory
-# attn_implementation: uses flash attention, if your device supports it - otherwise remove it
-# device_map=auto: loads the model across multiple GPUs
-chatbot = pipeline(
-    "conversational",
+bnb_config = BitsAndBytesConfig(
+    load_in_8bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype="bfloat16",
+)
+
+pipe = pipeline(
+    "text-generation",
     model="BramVanroy/fietje-2b-chat",
-    model_kwargs={"load_in_8bit": True, "attn_implementation": "flash_attention_2"},
+    model_kwargs={"attn_implementation": "flash_attention_2", "quantization_config": bnb_config},
     device_map="auto"
 )
 
+
 while (system_message := input("System message ('q' to quit): ")) != "q":
-    start_messages = [
+    messages = [
         {"role": "system", "content": system_message},
     ]
-    conversation = Conversation(start_messages)
-    while (user_input := input("User ('r' to reset): ")) != "r":
-        conversation.add_user_input(user_input)
-        conversation = chatbot(conversation)
-        response = conversation.messages[-1]["content"]
+    while (user_input := input("User ('r' to reset): ")) != "r":        
+        messages.append({"role": "user", "content": user_input})
+        output = pipe(
+            messages,
+            max_length=512,
+            do_sample=True,
+            temperature=0.1,
+            top_p=0.8,
+            top_k=10,
+        )
+        response = output[0]["generated_text"][-1]["content"]
         print("Assistant:", response)
+        messages.append({"role": "assistant", "content": response})
 ```
 
-## What's next?
-
-I have some ideas... :-)
 
 ## Thanks
 
