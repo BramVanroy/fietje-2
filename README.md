@@ -7,8 +7,6 @@
 <p><em>An open and efficient LLM for Dutch.</em></p>
 </div>
 
-**[Chat with Fietje!](https://huggingface.co/spaces/BramVanroy/fietje-2b)**
-
 Fietje is an adapated version of microsoft/phi-2, tailored to Dutch text generation by training on **28B tokens**. It is small and efficient with a size of 2.7 billion parameters while performing almost on par with more powerful Dutch LLMs of twice its size like GEITje 7B Ultra. *In some benchmarks it even beats it!* 😲
 
 Fietje comes in three flavors, all equally fast and efficient but intended for different tasks. Each variant builds upon the previous, so as a general assistant the chat variant is recommended.
@@ -25,14 +23,14 @@ Fietje comes in three flavors, all equally fast and efficient but intended for d
 If you use Fietje or the [CulturaX + Wikipedia filtered subset](https://huggingface.co/datasets/BramVanroy/wikipedia_culturax_dutch) in your work, please cite to the following paper:
 
 ```bibtex
-@misc{vanroy2024fietjeopenefficientllm,
-      title={Fietje: An open, efficient LLM for Dutch}, 
-      author={Bram Vanroy},
-      year={2024},
-      eprint={2412.15450},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2412.15450}, 
+@article{vanroy2024fietje,
+    author="Vanroy, Bram",
+    title="Fietje: An open, efficient LLM for Dutch",
+    url="https://www.clinjournal.org/clinj/article/view/213",
+    journal="Computational Linguistics in the Netherlands Journal",
+    volume="14",
+    year="2025",
+    pages="473--504"
 }
 ```
 
